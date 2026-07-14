@@ -115,6 +115,19 @@ When Zoho Campaigns is ready for Andrea, export the sheet as CSV and import dire
 - Manual sync: tap "Sync Now" in the top-right of the form
 - Queue count: displayed in the header bar ("3 entries waiting to sync")
 
+### Show-day routine
+
+1. **Night before / morning of (with WiFi):** open the form once and let it load fully — this refreshes the cached page so the tablet has the latest shows list
+2. **On the stand (no signal):** just use it. The header shows an amber "Offline" dot and counts queued entries — nothing else changes for the visitor
+3. **Back on WiFi (end of day / back at base):** open the form — it syncs automatically the moment it detects a connection. Wait for the green "✓ N entries synced to sheet" toast and check the "waiting to sync" pill has disappeared, then spot-check the Google Sheet
+4. If it doesn't sync by itself, tap **Sync Now** in the header
+
+### Data safety
+
+Queued entries are written to device storage the instant Register is tapped — **before** the success screen shows. They survive app crashes, force-closes, battery dying and reboots. The queue is only cleared after Google confirms the rows were written, and re-sends are de-duplicated, so a dropped connection mid-sync can't lose or double entries.
+
+The queue does **NOT** survive: uninstalling Fully Kiosk, "Clear data/cache" on the app in Android settings, or a factory reset. **Never do any of those while the header shows entries waiting to sync** — get the tablet on WiFi and sync first.
+
 ---
 
 ## Moving to permanent hosting later
@@ -131,7 +144,7 @@ The site is a plain static folder — any static host works (Cloudflare Pages, N
 
 **How to exit Fully Kiosk:** Swipe down from the top of the screen → padlock icon → enter admin PIN.
 
-**Lost the admin PIN:** Uninstall and reinstall Fully Kiosk (data in localStorage is preserved on Android — it survives app reinstall as long as you don't factory reset).
+**Lost the admin PIN:** Sync any queued entries first (get the tablet on WiFi, confirm the queue pill is gone), then uninstall and reinstall Fully Kiosk. **Reinstalling wipes the app's local data — any unsynced entries are lost**, which is why syncing first matters.
 
 ---
 
