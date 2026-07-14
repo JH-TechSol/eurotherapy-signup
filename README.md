@@ -62,7 +62,22 @@ Then in the repo → **Settings → Pages → Custom domain** → enter `eurothe
 
 ---
 
-## Fully Kiosk Browser setup (on each tablet)
+## Tablet setup — Route A: free (Chrome PWA + App pinning)
+
+One-time, per tablet, with WiFi:
+
+1. Open **Chrome** → `https://eurotherapy.jhtechnicalsolutions.co.uk` — let it load fully (caches for offline)
+2. Chrome menu (⋮) → **Add to Home screen / Install app** — an "Eurotherapy" icon appears
+3. Launch from the **icon** (not Chrome) — opens true fullscreen, no browser bar, no status bar
+4. Settings → Security → **App pinning** (a.k.a. Screen pinning) → enable + **"Ask for PIN before unpinning"**; make sure the tablet has a screen-lock PIN
+5. Settings → Display → **Screen timeout** → max/never; lock rotation to portrait
+6. Test: submit a fake sign-up, watch it sync, delete the row from the Sheet
+
+On show day: open the app → Recents → tap the app's icon on its card → **Pin**. Unpin with swipe-up-and-hold (or Back+Recents) + PIN.
+
+---
+
+## Tablet setup — Route B: Fully Kiosk Browser (PLUS licence ~€8.90/tablet one-time; all features free to trial)
 
 1. Install **Fully Kiosk Browser** from Google Play (free)
 2. Open Fully Kiosk → Settings → **Start URL:**
