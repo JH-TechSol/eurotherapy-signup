@@ -273,7 +273,8 @@
   .condition-item:hover  { border-color: var(--teal); background: rgba(153,207,210,0.18); }
   .condition-item.selected { border-color: var(--teal-dark); background: rgba(153,207,210,0.28); }
 
-  .condition-item input[type="checkbox"] {
+  .condition-item input[type="checkbox"],
+  .condition-item input[type="radio"] {
     width: 16px; height: 16px; min-width: 16px;
     accent-color: var(--teal-dark); cursor: pointer; flex-shrink: 0;
   }
@@ -445,6 +446,16 @@
       <div class="section-label">Conditions I suffer with</div>
       <div class="conditions-grid" id="conditionsGrid"></div>
 
+      <div class="field" style="margin-top:12px;">
+        <label class="field-label" for="otherCondition">Other — anything not listed above</label>
+        <input type="text" id="otherCondition" placeholder="Type here if needed" autocomplete="off">
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-label">Your consultant today</div>
+      <div class="conditions-grid" id="repGrid" style="grid-template-columns:1fr 1fr 1fr;"></div>
+
       <div class="divider"></div>
 
       <label class="consent-box" for="consent">
@@ -558,6 +569,24 @@ CONDITIONS.forEach(c => {
   grid.appendChild(item);
 });
 
+// ── Sales reps
+const REPS = ["Andrea", "Martin", "Danny"];
+
+// Populate sales rep radio group
+const repGrid = document.getElementById("repGrid");
+REPS.forEach(r => {
+  const id = "rep_" + r;
+  const item = document.createElement("label");
+  item.className = "condition-item";
+  item.htmlFor = id;
+  item.innerHTML = `<input type="radio" name="salesRep" id="${id}" value="${r}"><span>${r}</span>`;
+  item.querySelector("input").addEventListener("change", () => {
+    repGrid.querySelectorAll("label").forEach(l => l.classList.remove("selected"));
+    item.classList.add("selected");
+  });
+  repGrid.appendChild(item);
+});
+
 // Register service worker
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js").catch(() => {});
@@ -649,13 +678,19 @@ function handleSubmit() {
   const phone   = document.getElementById("phone").value.trim();
   const consent = document.getElementById("consent").checked;
 
+  const rep = document.querySelector('input[name="salesRep"]:checked');
+
   if (!fname)                         return showToast("Please enter a first name.", "error");
   if (!email || !email.includes("@")) return showToast("Please enter a valid email address.", "error");
+  if (!rep)                           return showToast("Please select your consultant.", "error");
   if (!consent)                       return showToast("Please tick the consent box to continue.", "error");
 
+  const other = document.getElementById("otherCondition").value.trim();
   const conditions = Array.from(
     document.querySelectorAll("#conditionsGrid input:checked")
-  ).map(cb => cb.value).join(", ");
+  ).map(cb => cb.value)
+   .concat(other ? ["Other: " + other] : [])
+   .join(", ");
 
   const entry = {
     id:            Date.now(),
@@ -666,7 +701,8 @@ function handleSubmit() {
     phone:         phone,
     conditions:    conditions,
     email_consent: true,
-    show:          currentShow
+    show:          currentShow,
+    sales_rep:     rep.value
   };
 
   const q = getQueue();
@@ -716,11 +752,11 @@ function syncNow() {
 //  RESET
 // ══════════════════════════════════════════════════════════
 function resetForm() {
-  ["fname","lname","email","phone"].forEach(id => {
+  ["fname","lname","email","phone","otherCondition"].forEach(id => {
     document.getElementById(id).value = "";
   });
   document.getElementById("consent").checked = false;
-  document.querySelectorAll("#conditionsGrid input").forEach(cb => {
+  document.querySelectorAll("#conditionsGrid input, #repGrid input").forEach(cb => {
     cb.checked = false;
     cb.closest("label").classList.remove("selected");
   });

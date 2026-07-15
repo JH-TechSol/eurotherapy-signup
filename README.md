@@ -115,7 +115,7 @@ Add or remove shows, commit and push to `main` — GitHub Pages auto-deploys wit
 
 Open the **Eurotherapy Signups** Google Sheet. Data columns:
 
-| Timestamp | First Name | Last Name | Email | Phone | Conditions | Email Consent | Show / Event | Entry ID |
+| Timestamp | First Name | Last Name | Email | Phone | Conditions | Email Consent | Show / Event | Sales Rep | Entry ID |
 
 When Zoho Campaigns is ready for Andrea, export the sheet as CSV and import directly into Campaigns (the Entry ID column can be dropped on import — it's only used for de-duplication).
 

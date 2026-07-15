@@ -15,6 +15,7 @@ const HEADERS = [
   "Conditions",
   "Email Consent",
   "Show / Event",
+  "Sales Rep",
   "Entry ID"
 ];
 
@@ -61,6 +62,7 @@ function doPost(e) {
         entry.conditions    || "",
         entry.email_consent ? "Yes" : "No",
         entry.show          || "",
+        entry.sales_rep     || "",
         entry.id            || ""
       ]);
 
