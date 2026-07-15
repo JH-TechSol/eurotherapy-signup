@@ -496,13 +496,15 @@
 // ══════════════════════════════════════════════════════════
 const SYNC_URL = "https://script.google.com/macros/s/AKfycbwtqvuSkojT52cVdMvnBrF-jQUy3aNqZIM1tCO_MNrIDIp5UXhVKPl520-Qt6kUM0sXHA/exec";
 
-// ── Shows list
-// Edit this array to add/remove shows.
-// These also appear in the setup screen dropdown.
-const SHOWS = [
-  "RWAS Royal Welsh Show",
-  "Great Yorkshire Show",
-  "Other"
+// ── Show schedule
+// Each show has a name plus first and last day (inclusive, "YYYY-MM-DD").
+// On the tablet, the show whose dates cover today is selected
+// automatically — no dropdown needed. Shows without dates (null) just
+// appear in the manual dropdown.
+const SHOW_SCHEDULE = [
+  { name: "RWAS Royal Welsh Show", start: null, end: null },
+  { name: "Great Yorkshire Show",  start: null, end: null },
+  { name: "Other",                 start: null, end: null }
 ];
 
 // ── Conditions list
@@ -549,11 +551,27 @@ const CONDITIONS = [
 
 // Populate shows dropdown
 const setupSelect = document.getElementById("setupShow");
-SHOWS.forEach(s => {
+SHOW_SCHEDULE.forEach(s => {
   const opt = document.createElement("option");
-  opt.value = s; opt.textContent = s;
+  opt.value = s.name; opt.textContent = s.name;
   setupSelect.appendChild(opt);
 });
+
+// Local date as "YYYY-MM-DD" (tablet's clock/timezone)
+function todayISO() {
+  const d = new Date();
+  return d.getFullYear() + "-" +
+    String(d.getMonth() + 1).padStart(2, "0") + "-" +
+    String(d.getDate()).padStart(2, "0");
+}
+
+// The show whose dates cover the given day — null if none or ambiguous
+function autoShowFor(dateStr) {
+  const matches = SHOW_SCHEDULE.filter(s =>
+    s.start && s.end && dateStr >= s.start && dateStr <= s.end
+  );
+  return matches.length === 1 ? matches[0].name : null;
+}
 
 // Populate conditions grid
 const grid = document.getElementById("conditionsGrid");
@@ -603,13 +621,21 @@ if (navigator.storage && navigator.storage.persist) {
 // ══════════════════════════════════════════════════════════
 let currentShow = "";
 
+function setShow(show) {
+  currentShow = show;
+  document.getElementById("showBadge").textContent = show;
+  document.getElementById("setupShow").value = show;
+  document.getElementById("setupScreen").classList.add("hidden");
+}
+
 function startSession() {
   const show = document.getElementById("setupShow").value;
   if (!show) return showToast("Please select today's show.", "error");
-  currentShow = show;
-  document.getElementById("showBadge").textContent = show;
-  document.getElementById("setupScreen").classList.add("hidden");
-  localStorage.setItem("et_show", show);
+  setShow(show);
+  // Manual picks win over auto-detection for the rest of today
+  localStorage.setItem("et_session", JSON.stringify({
+    show: show, date: todayISO(), manual: true
+  }));
 }
 
 function changeShow() {
@@ -617,14 +643,30 @@ function changeShow() {
   document.getElementById("setupScreen").classList.remove("hidden");
 }
 
-// Restore session if page reloads
-const saved = localStorage.getItem("et_show");
-if (saved) {
-  currentShow = saved;
-  document.getElementById("showBadge").textContent = saved;
-  document.getElementById("setupShow").value = saved;
-  document.getElementById("setupScreen").classList.add("hidden");
-}
+// ── Pick today's show ──
+// Priority: today's manual pick > schedule auto-detect > last-used show
+// (legacy fallback so tablets keep working before dates are filled in).
+(function initShow() {
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem("et_session") || "null"); }
+  catch (e) {}
+  const legacy = localStorage.getItem("et_show");
+  const auto = autoShowFor(todayISO());
+
+  if (saved && saved.manual && saved.date === todayISO()) {
+    setShow(saved.show);
+  } else if (auto) {
+    setShow(auto);
+    localStorage.setItem("et_session", JSON.stringify({
+      show: auto, date: todayISO(), manual: false
+    }));
+  } else if (saved) {
+    setShow(saved.show);
+  } else if (legacy) {
+    setShow(legacy);
+  }
+  // otherwise the setup screen stays visible for a manual pick
+})();
 
 // ══════════════════════════════════════════════════════════
 //  OFFLINE QUEUE  (localStorage)

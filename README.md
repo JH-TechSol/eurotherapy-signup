@@ -99,15 +99,16 @@ On show day: open the app → Recents → tap the app's icon on its card → **P
 Open `index.html` and find this section near the top of the `<script>` block:
 
 ```javascript
-const SHOWS = [
-  "IHS 2026",
-  "Royal Cornwall Show",
-  "Badminton Horse Trials",
-  // Add new shows here
+const SHOW_SCHEDULE = [
+  { name: "Great Yorkshire Show", start: "2026-07-14", end: "2026-07-17" },
+  { name: "RWAS Royal Welsh Show", start: "2026-07-20", end: "2026-07-23" },
+  { name: "Other", start: null, end: null }
 ];
 ```
 
-Add or remove shows, commit and push to `main` — GitHub Pages auto-deploys within ~30 seconds. Next time the tablet has signal and opens the page, it picks up the update (the service worker fetches the page network-first).
+The tablet **auto-selects the show whose dates cover today** — consultants never see the show picker on a scheduled day. Shows with `null` dates just appear in the manual dropdown. If no show matches today (or two overlap), the picker appears. "Change show" always allows a manual override, which wins for the rest of that day.
+
+Add or edit shows, commit and push to `main` — GitHub Pages auto-deploys within ~30 seconds. Next time the tablet has signal and opens the page, it picks up the update (the service worker fetches the page network-first).
 
 ---
 
