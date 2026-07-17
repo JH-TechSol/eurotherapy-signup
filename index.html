@@ -503,10 +503,10 @@ const SYNC_URL = "https://script.google.com/macros/s/AKfycbwtqvuSkojT52cVdMvnBrF
 // On the tablet, the show whose dates cover today is selected
 // automatically — no dropdown needed. Shows without dates (null) just
 // appear in the manual dropdown.
-// Source: https://eurotherapy.co.uk/events/ (as of 2026-07-16).
-// Dated entries auto-select on the day. Entries whose 2026 dates aren't
-// on the site yet (TBA or still showing 2025) have null dates — they sit
-// in the manual dropdown until the dates are known.
+// Names/venues sourced from https://eurotherapy.co.uk/events/ (2026-07-16);
+// exact dates cross-checked against each event's own site (2026-07-17)
+// since the Eurotherapy page hadn't published several of them yet.
+// "Other" stays undated for anything genuinely off-schedule.
 const SHOW_SCHEDULE = [
   { name: "The Scottish Motorhome, Caravan & Holiday Home Show", start: "2026-02-05", end: "2026-02-08" },
   { name: "National Equine Show",                    start: "2026-02-28", end: "2026-03-01" },
@@ -524,21 +524,22 @@ const SHOW_SCHEDULE = [
   { name: "New Forest and Hampshire County Show",    start: "2026-07-28", end: "2026-07-30" },
   { name: "Manifold Valley Agricultural Show",       start: "2026-08-08", end: "2026-08-08" },
   { name: "Chertsey Agricultural Show",              start: "2026-08-08", end: "2026-08-09" },
-  // 2026 dates not yet announced on the site:
-  { name: "Caravan Show (NEC)",                      start: null, end: null },
-  { name: "The Eventing Spring Carnival - Thoresby Park", start: null, end: null },
-  { name: "Balmoral Show",                           start: null, end: null },
-  { name: "Gillingham & Shaftesbury Show",           start: null, end: null },
-  { name: "Chatsworth Country Fair",                 start: null, end: null },
-  { name: "Edenbridge & Oxted Agricultural Show",    start: null, end: null },
-  { name: "Burghley Horse Trials",                   start: null, end: null },
-  { name: "Southampton Boat Show",                   start: null, end: null },
-  { name: "Malvern Autumn Show",                     start: null, end: null },
-  { name: "The Malvern Caravan & Motorhome Show",    start: null, end: null },
-  { name: "Motorhome & Caravan Show",                start: null, end: null },
-  { name: "Your Horse Live",                         start: null, end: null },
-  { name: "Ascot Christmas Fair",                    start: null, end: null },
-  { name: "The Great Yorkshire Christmas Fair",      start: null, end: null },
+  { name: "Gillingham & Shaftesbury Show",           start: "2026-08-19", end: "2026-08-20" },
+  { name: "Edenbridge & Oxted Agricultural Show",    start: "2026-08-30", end: "2026-08-31" },
+  { name: "Chatsworth Country Fair",                 start: "2026-09-04", end: "2026-09-06" },
+  { name: "Burghley Horse Trials",                   start: "2026-09-03", end: "2026-09-06" },
+  { name: "Southampton Boat Show",                   start: "2026-09-18", end: "2026-09-27" },
+  { name: "Malvern Autumn Show",                     start: "2026-09-25", end: "2026-09-27" },
+  { name: "The Malvern Caravan & Motorhome Show",    start: "2026-10-02", end: "2026-10-04" },
+  { name: "Motorhome & Caravan Show",                start: "2026-10-13", end: "2026-10-18" },
+  { name: "Your Horse Live",                         start: "2026-11-06", end: "2026-11-08" },
+  { name: "Ascot Christmas Fair",                    start: "2026-11-12", end: "2026-11-15" },
+  { name: "The Great Yorkshire Christmas Fair",      start: "2026-11-26", end: "2026-11-29" },
+  // Already passed by the time this schedule was compiled (2026-07-17) —
+  // dates kept for record-keeping; harmless to leave in, they just won't match again
+  { name: "Caravan Show (NEC)",                      start: "2026-02-17", end: "2026-02-22" },
+  { name: "The Eventing Spring Carnival - Thoresby Park", start: "2026-04-03", end: "2026-04-05" },
+  { name: "Balmoral Show",                           start: "2026-05-13", end: "2026-05-16" },
   { name: "Other",                                   start: null, end: null }
 ];
 
