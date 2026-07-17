@@ -3,13 +3,12 @@
 
 ---
 
-### ⚠️ PLACEHOLDER IMAGES — replace before sending
+### Images
 
-`email-assets/` currently holds generated placeholder graphics (teal box, labelled
-"PRODUCT PHOTO PLACEHOLDER" / "SHOW PHOTO PLACEHOLDER") so the emails render fully
-for preview. **Swap in the real photos before this goes live** — same filenames,
-so no HTML changes needed. See the "Images used" list below for what each one
-should show.
+`email-assets/` holds the 5 real photos (product-in-case, in-use, and show-floor
+shots). The knee-massage shot was rotated 180° to fix an upside-down source
+photo — the "massator" branding now reads correctly. All resized to 720px wide
+(retina-sharp at the emails' 580px display width) and compressed — 32–132KB each.
 
 ---
 
