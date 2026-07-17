@@ -503,10 +503,43 @@ const SYNC_URL = "https://script.google.com/macros/s/AKfycbwtqvuSkojT52cVdMvnBrF
 // On the tablet, the show whose dates cover today is selected
 // automatically — no dropdown needed. Shows without dates (null) just
 // appear in the manual dropdown.
+// Source: https://eurotherapy.co.uk/events/ (as of 2026-07-16).
+// Dated entries auto-select on the day. Entries whose 2026 dates aren't
+// on the site yet (TBA or still showing 2025) have null dates — they sit
+// in the manual dropdown until the dates are known.
 const SHOW_SCHEDULE = [
-  { name: "RWAS Royal Welsh Show", start: null, end: null },
-  { name: "Great Yorkshire Show",  start: null, end: null },
-  { name: "Other",                 start: null, end: null }
+  { name: "The Scottish Motorhome, Caravan & Holiday Home Show", start: "2026-02-05", end: "2026-02-08" },
+  { name: "National Equine Show",                    start: "2026-02-28", end: "2026-03-01" },
+  { name: "Crufts",                                  start: "2026-03-05", end: "2026-03-08" },
+  { name: "Suffolk Garden Show",                     start: "2026-04-04", end: "2026-04-06" },
+  { name: "Badminton Horse Trials",                  start: "2026-05-06", end: "2026-05-10" },
+  { name: "RHS Malvern Spring Festival",             start: "2026-05-07", end: "2026-05-10" },
+  { name: "Ideal Home Show Scotland",                start: "2026-05-22", end: "2026-05-25" },
+  { name: "Royal Bath & West Show",                  start: "2026-05-28", end: "2026-05-30" },
+  { name: "Royal Cornwall Show",                     start: "2026-06-04", end: "2026-06-06" },
+  { name: "Royal Highland Show",                     start: "2026-06-18", end: "2026-06-21" },
+  { name: "GWCT Scottish Game Fair",                 start: "2026-07-03", end: "2026-07-05" },
+  { name: "Great Yorkshire Show",                    start: "2026-07-14", end: "2026-07-17" },
+  { name: "The Royal Welsh Show",                    start: "2026-07-20", end: "2026-07-23" },
+  { name: "New Forest and Hampshire County Show",    start: "2026-07-28", end: "2026-07-30" },
+  { name: "Manifold Valley Agricultural Show",       start: "2026-08-08", end: "2026-08-08" },
+  { name: "Chertsey Agricultural Show",              start: "2026-08-08", end: "2026-08-09" },
+  // 2026 dates not yet announced on the site:
+  { name: "Caravan Show (NEC)",                      start: null, end: null },
+  { name: "The Eventing Spring Carnival - Thoresby Park", start: null, end: null },
+  { name: "Balmoral Show",                           start: null, end: null },
+  { name: "Gillingham & Shaftesbury Show",           start: null, end: null },
+  { name: "Chatsworth Country Fair",                 start: null, end: null },
+  { name: "Edenbridge & Oxted Agricultural Show",    start: null, end: null },
+  { name: "Burghley Horse Trials",                   start: null, end: null },
+  { name: "Southampton Boat Show",                   start: null, end: null },
+  { name: "Malvern Autumn Show",                     start: null, end: null },
+  { name: "The Malvern Caravan & Motorhome Show",    start: null, end: null },
+  { name: "Motorhome & Caravan Show",                start: null, end: null },
+  { name: "Your Horse Live",                         start: null, end: null },
+  { name: "Ascot Christmas Fair",                    start: null, end: null },
+  { name: "The Great Yorkshire Christmas Fair",      start: null, end: null },
+  { name: "Other",                                   start: null, end: null }
 ];
 
 // ── Conditions list
